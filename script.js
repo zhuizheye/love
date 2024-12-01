@@ -7,10 +7,18 @@ let isPlaying = false;
 bgMusic.load();
 
 // 添加音乐加载错误处理
-bgMusic.addEventListener('error', function() {
-    console.error('Music loading error');
-    // 尝试重新加载本地音乐文件
-    bgMusic.src = 'obj_wo3DlMOGwrbDjj7DisKw_14096407915_dd37_514d_552.mp3';
+bgMusic.addEventListener('error', function(e) {
+    console.error('Music loading error:', e);
+    // 尝试重新加载音乐
+    setTimeout(() => {
+        bgMusic.src = 'assets/music/background.mp3';
+        bgMusic.load();
+    }, 1000);
+});
+
+// 添加音乐加载成功处理
+bgMusic.addEventListener('canplaythrough', function() {
+    console.log('Music loaded successfully');
 });
 
 musicBtn.addEventListener('click', () => {
@@ -29,6 +37,12 @@ musicBtn.addEventListener('click', () => {
             })
             .catch(error => {
                 console.error('Playback failed:', error);
+                // 用户交互后重试播放
+                musicBtn.addEventListener('click', function retryPlay() {
+                    bgMusic.play().then(() => {
+                        musicBtn.removeEventListener('click', retryPlay);
+                    });
+                });
             });
         }
     }
