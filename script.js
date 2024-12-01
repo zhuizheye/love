@@ -6,6 +6,25 @@ let isPlaying = false;
 // 预加载音乐
 bgMusic.load();
 
+// 强制自动播放音乐的函数
+async function forceAutoPlay() {
+    try {
+        // 设置音量为30%
+        bgMusic.volume = 0.3;
+        // 解除浏览器的自动播放限制
+        bgMusic.muted = false;
+        // 强制播放
+        await bgMusic.play();
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+        console.log('Music auto-play successful');
+    } catch (error) {
+        console.error('Auto-play failed:', error);
+        // 如果自动播放失败，每秒尝试重新播放
+        setTimeout(forceAutoPlay, 1000);
+    }
+}
+
 // 添加音乐加载错误处理
 bgMusic.addEventListener('error', function(e) {
     console.error('Music loading error:', e);
@@ -13,12 +32,14 @@ bgMusic.addEventListener('error', function(e) {
     setTimeout(() => {
         bgMusic.src = 'assets/music/background.mp3';
         bgMusic.load();
+        forceAutoPlay();
     }, 1000);
 });
 
 // 添加音乐加载成功处理
 bgMusic.addEventListener('canplaythrough', function() {
     console.log('Music loaded successfully');
+    forceAutoPlay();
 });
 
 musicBtn.addEventListener('click', () => {
@@ -82,17 +103,12 @@ function closeModal() {
 
 // 页面加载完成后自动播放音乐
 document.addEventListener('DOMContentLoaded', () => {
-    // 尝试自动播放
-    const playPromise = bgMusic.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.then(_ => {
-            isPlaying = true;
-            musicBtn.classList.add('playing');
-        })
-        .catch(error => {
-            console.log('Auto-play was prevented');
-            // 自动播放被阻止是正常的，用户需要手动点击播放
-        });
-    }
+    forceAutoPlay();
 });
+
+// 用户交互时也尝试播放
+document.addEventListener('click', () => {
+    if (!isPlaying) {
+        forceAutoPlay();
+    }
+}, { once: true });
