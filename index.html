@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浪漫时刻</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling star1"></div>
+    <div class="twinkling star2"></div>
+    <div class="twinkling star3"></div>
+    <div class="twinkling star4"></div>
+    <div class="twinkling star5"></div>
+    <div class="music-player">
+        <audio id="bgMusic" loop>
+            <source src="obj_wo3DlMOGwrbDjj7DisKw_14096407915_dd37_514d_552.mp3" type="audio/mpeg">
+        </audio>
+        <button id="musicToggle" class="music-btn">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">爱的记忆</h1>
+            <div class="heart-container" id="heartContainer">
+                <div class="heart-shape">
+                    <svg class="heart-svg" viewBox="0 0 32 32">
+                        <path d="M16,28.261c0,0-14-7.926-14-17.046c0-8.565,9.333-11.816,14-4.399
+                            c4.667-7.417,14-4.167,14,4.399C30,20.335,16,28.261,16,28.261z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="love-text">
+                <p class="quote">愿我们的爱，如繁星闪耀</p>
+                <p class="message">时光荏苒，与你相伴的每一刻都是永恒</p>
+            </div>
+            <button class="glow-button" onclick="showLove()">点击表白</button>
+        </div>
+    </div>
+    <div class="message-modal" id="messageModal">
+        <div class="modal-content">
+            <h2>我的心里话</h2>
+            <p>遇见你是我最美好的事情，愿往后余生都能有你相伴。</p>
+            <button onclick="closeModal()">❤ 我也爱你</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
