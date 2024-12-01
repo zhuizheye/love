@@ -48,24 +48,7 @@ musicBtn.addEventListener('click', () => {
         musicBtn.classList.remove('playing');
         musicBtn.classList.add('paused');
     } else {
-        // 使用 Promise 确保音乐开始播放
-        const playPromise = bgMusic.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                musicBtn.classList.add('playing');
-                musicBtn.classList.remove('paused');
-            })
-            .catch(error => {
-                console.error('Playback failed:', error);
-                // 用户交互后重试播放
-                musicBtn.addEventListener('click', function retryPlay() {
-                    bgMusic.play().then(() => {
-                        musicBtn.removeEventListener('click', retryPlay);
-                    });
-                });
-            });
-        }
+        forceAutoPlay();
     }
     isPlaying = !isPlaying;
 });
@@ -77,6 +60,11 @@ heartContainer.addEventListener('click', () => {
     setTimeout(() => {
         heartContainer.style.transform = 'scale(1)';
     }, 200);
+    
+    // 尝试播放音乐
+    if (!isPlaying) {
+        forceAutoPlay();
+    }
 });
 
 // 显示表白消息
@@ -92,6 +80,11 @@ function showLove() {
     // 震动效果
     if (navigator.vibrate) {
         navigator.vibrate(100);
+    }
+    
+    // 尝试播放背景音乐
+    if (!isPlaying) {
+        forceAutoPlay();
     }
 }
 
